@@ -253,6 +253,7 @@ type Props = BaseProps & (
       y?: (n: number) => string;
     }
     formatTooltipX?: <T extends Coords>(coord: T) => string;
+    formatTooltipY?: <T extends Coords>(coord: T) => string;
     tickCount?: {
       x?: number;
       y?: number;
@@ -389,6 +390,7 @@ export const DataViz = (props: Props) => {
           tickCount: props.tickCount,
           animateAxis: props.animateAxis,
           formatTooltipX: props.formatTooltipX,
+          formatTooltipY: props.formatTooltipY,
         });
       } else if (props.vizType === VizType.TreeMap) {
         createTreeMap({

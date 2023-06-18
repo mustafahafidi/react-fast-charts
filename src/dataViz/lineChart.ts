@@ -79,6 +79,7 @@ interface Input {
     y?: (n: number) => string;
   };
   formatTooltipX?: <T extends Coords>(coord: T) => string;
+  formatTooltipY?: <T extends Coords>(coord: T) => string;
   tickCount?: {
     x?: number;
     y?: number;
@@ -90,7 +91,7 @@ export default (input: Input) => {
   const {
     svg, size, axisLabels, tooltip, axisMinMax,
     showGridLines, formatAxis, tickCount, animateAxis,
-    labelFont, formatTooltipX
+    labelFont, formatTooltipX, formatTooltipY,
   } = input;
 
   const data: InternalDatum[] = input.data;
@@ -389,7 +390,8 @@ export default (input: Input) => {
                   <div>
                     <strong>${label}</strong>
                     <br />
-                    ${formatTooltipX ? formatTooltipX(coord) : coord.x}: <b>${parseFloat(coord.y.toFixed(2))}</b>
+                    ${formatTooltipX ? formatTooltipX(coord) : coord.x}: 
+                    ${formatTooltipY ? formatTooltipY(coord) : parseFloat(coord.y.toFixed(2))}
                   </div>
                 `);
                 tooltip

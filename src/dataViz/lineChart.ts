@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import {formatNumber} from './Utils';
+import { formatNumber } from './Utils';
 
 export interface Coords {
   x: number;
@@ -78,6 +78,7 @@ interface Input {
     x?: (n: number) => string;
     y?: (n: number) => string;
   };
+  formatTooltipX?: <T extends Coords>(coord: T) => string;
   tickCount?: {
     x?: number;
     y?: number;
@@ -89,7 +90,7 @@ export default (input: Input) => {
   const {
     svg, size, axisLabels, tooltip, axisMinMax,
     showGridLines, formatAxis, tickCount, animateAxis,
-    labelFont,
+    labelFont, formatTooltipX
   } = input;
 
   const data: InternalDatum[] = input.data;
@@ -388,7 +389,7 @@ export default (input: Input) => {
                   <div>
                     <strong>${label}</strong>
                     <br />
-                    ${coord.x}: ${parseFloat(coord.y.toFixed(2))}
+                    ${formatTooltipX ? formatTooltipX(coord) : coord.x}: <b>${parseFloat(coord.y.toFixed(2))}</b>
                   </div>
                 `);
                 tooltip

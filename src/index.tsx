@@ -1,51 +1,51 @@
 import { ExtendedFeature, scaleOrdinal, select } from 'd3';
-import React, {useState, useEffect, useRef} from 'react';
-import styled from 'styled-components';
-import createScatterPlot, {Datum as ScatterPlotDatum} from './dataViz/scatterPlot';
-import createBarChart, {
-  Datum as BarChartDatum,
-  LabelPlacement,
-} from './dataViz/barChart';
-import createClusterBarChart, {Datum as ClusterBarChartDatum} from './dataViz/clusterBarChart';
-import createRadarChart, {
-  Datum as RadarChartDatum,
-  RadarChartOptions,
-  RadarChartConfig,
-} from './dataViz/radarChart';
-import createGeoMap, {GeoJsonCustomProperties} from './dataViz/geoMap';
-import creatLineChart, {
-  Datum as LineChartDatum,
-  Coords,
-  LabelAnchor,
-  LabelPosition,
-  AnimationDirection,
-} from './dataViz/lineChart';
-import createTreeMap, {RootDatum, LeafDatum} from './dataViz/treeMap';
-import createDifferenceTreeMap from './dataViz/differenceTreeMap';
-import createStackChart, {Datum as StackChartDatum, StackChartConfig} from './dataViz/stackChart';
-import createClusterChart, {Datum as ClusterChartDatum} from './dataViz/clusterChart';
-import createBoxAndWhiskersChart, {Datum as BoxAndWhiskersChartDatum} from './dataViz/boxAndWhiskers';
-import {darken} from 'polished';
-import downloadImage, { FileFormat } from './dataViz/downloadImage';
-import { CSVLink } from 'react-csv';
-import DownloadSVGURL from './dataViz/assets/download.svg';
-import DataSVGURL from './dataViz/assets/data.svg';
 import debounce from 'lodash/debounce';
-import {
-  baseColor,
-  secondaryFont,
-  tertiaryColor,
-  defaultPaletteColors,
-  defaultDivergentColors,
-  defaultCoolChloropleth,
-  defaultHotChloropleth,
-  formatNumber,
-  adaptLabelFontSize,
-} from './dataViz/Utils';
+import { darken } from 'polished';
+import React, { useEffect, useRef, useState } from 'react';
+import { CSVLink } from 'react-csv';
+import styled from 'styled-components';
 import ColorScaleLegend from './dataViz/ColorScaleLegend';
 import HorizontalLegend from './dataViz/HorizontalLegend';
 import HowToReadDots from './dataViz/HowToReadDots';
 import Legend from './dataViz/Legend';
+import {
+  adaptLabelFontSize,
+  baseColor,
+  defaultCoolChloropleth,
+  defaultDivergentColors,
+  defaultHotChloropleth,
+  defaultPaletteColors,
+  formatNumber,
+  secondaryFont,
+  tertiaryColor,
+} from './dataViz/Utils';
+import DataSVGURL from './dataViz/assets/data.svg';
+import DownloadSVGURL from './dataViz/assets/download.svg';
+import createBarChart, {
+  Datum as BarChartDatum,
+  LabelPlacement,
+} from './dataViz/barChart';
+import createBoxAndWhiskersChart, { Datum as BoxAndWhiskersChartDatum } from './dataViz/boxAndWhiskers';
+import createClusterBarChart, { Datum as ClusterBarChartDatum } from './dataViz/clusterBarChart';
+import createClusterChart, { Datum as ClusterChartDatum } from './dataViz/clusterChart';
+import createDifferenceTreeMap from './dataViz/differenceTreeMap';
+import downloadImage, { FileFormat } from './dataViz/downloadImage';
+import createGeoMap, { GeoJsonCustomProperties } from './dataViz/geoMap';
+import creatLineChart, {
+  AnimationDirection,
+  Coords,
+  LabelAnchor,
+  LabelPosition,
+  Datum as LineChartDatum,
+} from './dataViz/lineChart';
+import createRadarChart, {
+  RadarChartConfig,
+  Datum as RadarChartDatum,
+  RadarChartOptions,
+} from './dataViz/radarChart';
+import createScatterPlot, { Datum as ScatterPlotDatum } from './dataViz/scatterPlot';
+import createStackChart, { StackChartConfig, Datum as StackChartDatum } from './dataViz/stackChart';
+import createTreeMap, { LeafDatum, RootDatum } from './dataViz/treeMap';
 
 const Root = styled.div`
   width: 100%;
@@ -252,6 +252,7 @@ type Props = BaseProps & (
       x?: (n: number) => string;
       y?: (n: number) => string;
     }
+    formatTooltipX?: <T extends Coords>(coord: T) => string;
     tickCount?: {
       x?: number;
       y?: number;
@@ -387,6 +388,7 @@ export const DataViz = (props: Props) => {
           formatAxis: props.formatAxis,
           tickCount: props.tickCount,
           animateAxis: props.animateAxis,
+          formatTooltipX: props.formatTooltipX,
         });
       } else if (props.vizType === VizType.TreeMap) {
         createTreeMap({
@@ -571,6 +573,6 @@ export {
   HorizontalLegend,
   HowToReadDots,
   Legend,
-}
+};
 export default DataViz;
 
